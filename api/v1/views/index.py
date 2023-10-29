@@ -3,10 +3,10 @@ from flask import jsonify
 from models import storage
 
 
-@app_views.route('/stats', methods=['GET'])
-def stats():
+@app_views.route('/status', methods=['GET'])
+def status():
     """Retrieve the number of each object by type"""
-    stats = {
+    status = {
         'amenities': storage.count('Amenity'),
         'cities': storage.count('City'),
         'places': storage.count('Place'),
