@@ -1,43 +1,33 @@
 #!/usr/bin/python3
-"""
-Flask App that integrates with AirBnB static HTML Template
-"""
+"""User view for the v1 API"""
+from flask import jsonify, request, abort
 from api.v1.views import app_views
-from flask import jsonify, abort, request
-from models import storage, User
+from models import storage
+from models.user import User
 
-
-@app_views.route('/users', methods=['GET'])
+@app_views.route('/users', methods=['GET'], strict_slashes=False)
 def get_users():
-    """Retrieve the list of all User objects"""
-    users = storage.all('User').values()
-    users_list = [user.to_dict() for user in users]
-    return jsonify(users_list)
+    users = [user.to_dict() for user in storage.all(User).values()]
+    return jsonify(users)
 
-
-@app_views.route('/users/<user_id>', methods=['GET'])
+@app_views.route('/users/<user_id>', methods=['GET'], strict_slashes=False)
 def get_user(user_id):
-    """Retrieve a User object"""
-    user = storage.get('User', user_id)
+    user = storage.get(User, user_id)
     if user is None:
         abort(404)
     return jsonify(user.to_dict())
 
-
-@app_views.route('/users/<user_id>', methods=['DELETE'])
+@app_views.route('/users/<user_id>', methods=['DELETE'], strict_slashes=False)
 def delete_user(user_id):
-    """Deletes a User object"""
-    user = storage.get('User', user_id)
+    user = storage.get(User, user_id)
     if user is None:
         abort(404)
     storage.delete(user)
     storage.save()
     return jsonify({})
 
-
-@app_views.route('/users', methods=['POST'])
+@app_views.route('/users', methods=['POST'], strict_slashes=False)
 def create_user():
-    """Creates a User"""
     if not request.json:
         abort(400, 'Not a JSON')
     if 'email' not in request.json:
@@ -45,21 +35,18 @@ def create_user():
     if 'password' not in request.json:
         abort(400, 'Missing password')
     user = User(**request.json)
-    storage.new(user)
-    storage.save()
+    user.save()
     return jsonify(user.to_dict()), 201
 
-
-@app_views.route('/users/<user_id>', methods=['PUT'])
+@app_views.route('/users/<user_id>', methods=['PUT'], strict_slashes=False)
 def update_user(user_id):
-    """Updates a User object"""
-    user = storage.get('User', user_id)
+    user = storage.get(User, user_id)
     if user is None:
         abort(404)
     if not request.json:
         abort(400, 'Not a JSON')
     for key, value in request.json.items():
-        if key not in ['id', 'email', 'password', 'created_at', 'updated_at']:
+        if key not in ['id', 'email', 'created_at', 'updated_at']:
             setattr(user, key, value)
-    storage.save()
+    user.save()
     return jsonify(user.to_dict())
