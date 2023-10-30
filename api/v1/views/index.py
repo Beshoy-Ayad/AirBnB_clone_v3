@@ -9,5 +9,9 @@ from api.v1.views import app_views
 
 @app_views.route('/status', methods=['GET'])
 def status():
-    """Return the status of the API"""
-    return jsonify({'status': 'OK'})
+    """
+    function for status route that returns the status
+    """
+    if request.method == 'GET':
+        resp = {"status": "OK"}
+        return jsonify(resp)
