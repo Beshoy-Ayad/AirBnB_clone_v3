@@ -1,3 +1,8 @@
+#!/usr/bin/python3
+"""
+Flask App that integrates with AirBnB static HTML Template
+"""
+
 from flask import Flask, jsonify
 from flask_cors import CORS
 from models import storage

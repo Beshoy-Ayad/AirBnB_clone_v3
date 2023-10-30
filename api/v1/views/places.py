@@ -1,3 +1,7 @@
+#!/usr/bin/python3
+"""
+Flask App that integrates with AirBnB static HTML Template
+"""
 from api.v1.views import app_views
 from flask import jsonify, abort, request
 from models import storage, City, User, Place

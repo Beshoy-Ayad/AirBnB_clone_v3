@@ -1,3 +1,7 @@
+#!/usr/bin/python3
+"""
+Flask App that integrates with AirBnB static HTML Template
+"""
 from flask import Blueprint
 
 app_views = Blueprint('app_views', __name__, url_prefix='/api/v1')

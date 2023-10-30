@@ -1,17 +1,12 @@
-from api.v1.views import app_views
+#!/usr/bin/python3
+"""
+Flask App that integrates with AirBnB static HTML Template
+"""
 from flask import jsonify
-from models import storage
+from api.v1.views import app_views
 
 
 @app_views.route('/status', methods=['GET'])
 def status():
-    """Retrieve the number of each object by type"""
-    status = {
-        'amenities': storage.count('Amenity'),
-        'cities': storage.count('City'),
-        'places': storage.count('Place'),
-        'reviews': storage.count('Review'),
-        'states': storage.count('State'),
-        'users': storage.count('User')
-    }
-    return jsonify(stats)
+    """Return the status of the API"""
+    return jsonify({'status': 'OK'})
