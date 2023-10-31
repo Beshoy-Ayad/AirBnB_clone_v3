@@ -13,7 +13,7 @@ app = Flask(__name__)
 app.register_blueprint(app_views)
 
 # Create a CORS instance and allow requests from all origins
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
 
 
 @app.teardown_appcontext
